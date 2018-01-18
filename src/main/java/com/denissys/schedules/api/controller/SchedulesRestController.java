@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,7 +39,7 @@ public class SchedulesRestController {
 	private EventService eventService;
 
 	@GetMapping
-	public ResponseEntity<MessageReponse> events(
+	public ResponseEntity<MessageReponse> getEvents(
 			@ApiParam(name = "ownerId", required = true)
 			@RequestParam(value = "ownerId", required = true) Optional<String> ownerId,
 			
@@ -50,12 +52,33 @@ public class SchedulesRestController {
 	
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Create event", nickname = "event")
-    public void createOrder(@ApiParam(name = "EventDto",
+    public void createEvent(@ApiParam(name = "EventDto",
         value = "Create Event Request Body") @RequestBody @Valid final EventDto eventDto) {
     	
         log.debug("BEGIN createEvent: {}", eventDto);
         eventService.create(eventDto);
         log.debug("END createEvent.");
     }
+    
+    @PutMapping(consumes = APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Create event", nickname = "event")
+    public void updateEvent(@ApiParam(name = "EventDto",
+        value = "Create Event Request Body") @RequestBody @Valid final EventDto eventDto) {
+    	
+        log.debug("BEGIN createEvent: {}", eventDto);
+        eventService.update(eventDto);
+        log.debug("END createEvent.");
+    }
+    
+    @DeleteMapping
+	public void deleteEvents(
+			@ApiParam(name = "ownerId", required = true)
+			@RequestParam(value = "ownerId", required = true) Optional<String> ownerId,
+			
+			@ApiParam(name = "eventId", required = false)
+			@RequestParam(value = "eventId", required = true) Optional<String> eventId) {
+
+		this.eventService.delete(ownerId, eventId);
+	}
 
 }

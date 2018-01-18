@@ -51,5 +51,15 @@ public class EventService {
 		log.info("END create events");
 		return eventResponse;
 	}
+
+	public void update(EventDto eventDto) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void delete(Optional<String> ownerId, Optional<String> eventId) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
