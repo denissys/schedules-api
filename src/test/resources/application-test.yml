@@ -1,0 +1,10 @@
+eureka:
+  client:
+    enabled: false
+
+security:
+  basic:
+    enabled: false
+  management:
+    security:
+      enabled: false

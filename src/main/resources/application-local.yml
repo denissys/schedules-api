@@ -1,0 +1,18 @@
+eureka:
+  client:
+    enabled: false
+
+security:
+  basic:
+    enabled: false
+  management:
+    security:
+      enabled: false
+
+spring:
+  application:
+    name: schedules-api
+  data:
+    database: schedules
+    mongodb:
+      uri:  mongodb://localhost:27017/schedules

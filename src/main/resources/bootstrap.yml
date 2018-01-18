@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: schedules-api
+  cloud.config:
+    enabled: ${ENABLE_CONFIG_SERVER:false}
+    uri: ${CONFIG_SERVER_ADDRESS}
+    name: schedules-api
+    username: ${CONFIG_SERVER_USERNAME}
+    password: ${CONFIG_SERVER_PASSWORD}
