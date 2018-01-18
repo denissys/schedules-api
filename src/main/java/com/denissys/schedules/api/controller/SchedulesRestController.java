@@ -45,9 +45,12 @@ public class SchedulesRestController {
 			
 			@ApiParam(name = "eventId", required = false)
 			@RequestParam(value = "eventId", required = false) Optional<String> eventId) {
-
+		
+		log.info("BEGIN createEvent: ownerId={}, eventId={}", ownerId, eventId);
 		final MessageReponse messageReponse = this.eventService.find(ownerId, eventId);
-		return new ResponseEntity<>(messageReponse, HttpStatus.OK);
+		ResponseEntity<MessageReponse> responseEntity = new ResponseEntity<>(messageReponse, HttpStatus.OK);
+		log.info("END createEvent: {}");
+		return responseEntity;
 	}
 	
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
@@ -55,9 +58,9 @@ public class SchedulesRestController {
     public void createEvent(@ApiParam(name = "EventDto",
         value = "Create Event Request Body") @RequestBody @Valid final EventDto eventDto) {
     	
-        log.debug("BEGIN createEvent: {}", eventDto);
+        log.info("BEGIN createEvent: {}", eventDto);
         eventService.create(eventDto);
-        log.debug("END createEvent.");
+        log.info("END createEvent.");
     }
     
     @PutMapping(consumes = APPLICATION_JSON_VALUE)
@@ -65,9 +68,9 @@ public class SchedulesRestController {
     public void updateEvent(@ApiParam(name = "EventDto",
         value = "Create Event Request Body") @RequestBody @Valid final EventDto eventDto) {
     	
-        log.debug("BEGIN createEvent: {}", eventDto);
+        log.info("BEGIN updateEvent: {}", eventDto);
         eventService.update(eventDto);
-        log.debug("END createEvent.");
+        log.info("END updateEvent.");
     }
     
     @DeleteMapping
@@ -78,7 +81,9 @@ public class SchedulesRestController {
 			@ApiParam(name = "eventId", required = true)
 			@RequestParam(value = "eventId", required = true) Optional<String> eventId) {
 
+    	log.info("BEGIN inactivateEvent: ownerId={}, eventId={}", ownerId, eventId);
 		this.eventService.inactivate(ownerId, eventId);
+		log.info("END inactivateEvent: {}");
 	}
 
 }

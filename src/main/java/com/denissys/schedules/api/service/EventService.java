@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.denissys.schedules.api.adapter.EventAdapter;
 import com.denissys.schedules.api.controller.definitions.EventResponse;
@@ -19,7 +19,7 @@ import com.denissys.schedules.api.model.repository.EventRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Component
+@Service
 public class EventService {
 	
 	@Autowired
