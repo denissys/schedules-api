@@ -31,8 +31,7 @@ public class EventDto implements Serializable {
     @ApiModelProperty(value = "Owner id", required = true)
 	private String ownerId;
 	
-	@NotBlank
-    @ApiModelProperty(value = "Event id", required = false)
+    @ApiModelProperty(value = "Owner id", required = true)
 	private String eventId;
 	
 	@NotNull

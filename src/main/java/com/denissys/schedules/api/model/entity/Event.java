@@ -12,35 +12,44 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
 
 @JsonDeserialize(builder = Event.EventBuilder.class)
 @Builder
-@Value
 @Document
 public class Event implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	private String objectId;
-	
+	@Id	
 	@NotBlank
+	@Getter
 	private String eventId;
 
 	@NotBlank
+	@Getter
 	private String ownerId;
 
 	@NotNull
+	@Getter
 	private Date startDatetime;
 	
 	@NotNull
+	@Getter
 	private Date endDatetime;
 	
 	@NotBlank
+	@Getter
 	private String type;
 	
-	private boolean active;
+	@NotNull
+	@Getter
+	private Boolean active;
+	
+	public Event inactive() {
+		this.active = false;
+		return this;
+	}
 	
     public static final class EventBuilder {
     }

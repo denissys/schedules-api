@@ -4,6 +4,7 @@ import static com.google.common.collect.Lists.newArrayList;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,12 +28,7 @@ public class EventService {
 	public MessageReponse find(final Optional<String> ownerId, final Optional<String> eventId) {
 		log.info("BEGIN get events: ownerId={}, eventId={}", ownerId, eventId);
 
-		List<Event> events;
-		if (eventId.isPresent()) {
-			events = eventRepository.findBy(ownerId.get(), ownerId.get());
-		} else {
-			events = eventRepository.findBy(ownerId.get());
-		}
+		List<Event> events = findBy(ownerId, eventId);
 		EventResponse eventResponse = EventResponse.builder()
 				.eventDtos(EventAdapter.modelToDto(events))
 				.build();
@@ -40,26 +36,47 @@ public class EventService {
 		log.info("END get events");
 		return eventResponse;
 	}
+
+	private List<Event> findBy(final Optional<String> ownerId, final Optional<String> eventId) {
+		List<Event> events;
+		if (eventId.isPresent()) {
+			events = eventRepository.findBy(ownerId.get(), eventId.get());
+		} else {
+			events = eventRepository.findBy(ownerId.get());
+		}
+		return events;
+	}
 	
 	public MessageReponse create(final EventDto eventDto) {
-		log.info("BEGIN create event schedule: {}", eventDto);
+		log.info("BEGIN create event: {}", eventDto);
 		
 		Event event = eventRepository.save(EventAdapter.dtoToModel(eventDto));
 		List<EventDto> events = newArrayList(EventAdapter.modelToDto(event));
 		EventResponse eventResponse = EventResponse.builder().eventDtos(events).build();
 		
-		log.info("END create events");
+		log.info("END create event");
 		return eventResponse;
 	}
 
 	public void update(EventDto eventDto) {
-		// TODO Auto-generated method stub
+		log.info("BEGIN update event: {}", eventDto);
+		
+		Event event = eventRepository.findOneBy(eventDto.getOwnerId(), eventDto.getEventId());
+		eventRepository.save(EventAdapter.matchDtoToModel(eventDto, event));
+		
+		log.info("END update event");
 		
 	}
 
-	public void delete(Optional<String> ownerId, Optional<String> eventId) {
-		// TODO Auto-generated method stub
+	public void inactivate(Optional<String> ownerId, Optional<String> eventId) {
+		log.info("BEGIN inactivate events: ownerId={}, eventId={}", ownerId, eventId);
 		
+		List<Event> events = findBy(ownerId, eventId).stream()
+			.map(event -> event.inactive())
+			.collect(Collectors.toList());
+		eventRepository.save(events);
+		
+		log.info("END inactivate events");
 	}
 	
 }

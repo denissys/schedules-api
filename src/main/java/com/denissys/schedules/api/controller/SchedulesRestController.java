@@ -75,10 +75,10 @@ public class SchedulesRestController {
 			@ApiParam(name = "ownerId", required = true)
 			@RequestParam(value = "ownerId", required = true) Optional<String> ownerId,
 			
-			@ApiParam(name = "eventId", required = false)
+			@ApiParam(name = "eventId", required = true)
 			@RequestParam(value = "eventId", required = true) Optional<String> eventId) {
 
-		this.eventService.delete(ownerId, eventId);
+		this.eventService.inactivate(ownerId, eventId);
 	}
 
 }
