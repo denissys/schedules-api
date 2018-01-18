@@ -10,6 +10,6 @@
 
 ### Compile ###
 
-* mvn clean install
+* mvn clean spring-boot:run
 * http://[hostname]:[port]/
 * Eg.: http://localhost:8080
